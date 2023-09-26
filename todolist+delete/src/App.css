@@ -1,0 +1,29 @@
+.App {
+  text-align: center;
+}
+
+header {
+  background-color: #282c34;
+  height: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+table {
+  margin: auto;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+td {
+  border-bottom: 1px solid #ddd;
+}
