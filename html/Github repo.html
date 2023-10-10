@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Frontti</title>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        const RepoList = () => {
+            const [list, setList] = React.useState([]);
+
+            React.useEffect(() => {
+                fetch('https://api.github.com/search/repositories?q=react')
+                    .then(response => response.json())
+                    .then(responseData => {
+                        setList(responseData.items)
+                    })
+            }, [])
+
+            return (
+                <div>
+                    <h1>Repositories</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                list.map((lists, index) =>
+                                    <tr key={index}>
+                                        <td>{lists.full_name}</td>
+                                        <td><a href={lists.html_url}>{lists.html_url}</a></td>
+                                    </tr>
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<RepoList/>);  
+    </script>
+</body>
+
+</html>

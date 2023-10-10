@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Frontti</title>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        const WeatherInput = () => {
+            const [temp, setTemp] = React.useState('');
+            const [weather, setWeather] = React.useState('');
+            const [img, setImg] = React.useState('');
+            const [city, setCity] = React.useState('');
+
+            React.useEffect(() => {
+                var text = document.getElementById("textbox");
+                text.style.display = "none";
+            }, []);
+
+            const importCity = (event) => {
+                setCity(event.target.value);
+            };
+
+            const weatherData = () => {
+                fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&APPID=0c195192f1b4b7116ca9414f983bc399&units=metric')
+                    .then(response => response.json())
+                    .then(responseData => {
+                        setTemp(responseData.main.temp.toFixed(1));
+                        setWeather(responseData.weather[0].main);
+                        setImg(responseData.weather[0].icon);
+                        var text = document.getElementById("textbox");
+                        text.style.display = "block";
+                    })
+            }
+
+            return (
+                <div>
+                    <input type='text' value={city} onChange={importCity} />
+                    <button onClick={weatherData}>Get weather</button>
+
+                    <div id="textbox">
+                        <h3>Weather in {city}</h3>
+                        <p>Temperature: {temp} °C</p>
+                        <p>Weather: {weather}</p>
+                        <img src={"http://openweathermap.org/img/wn/" + img + "@2x.png"} />
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<WeatherInput />);    
+    </script>
+</body>
+
+</html>
